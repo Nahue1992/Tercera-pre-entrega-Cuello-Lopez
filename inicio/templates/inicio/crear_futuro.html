@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title_header %}
+Crear Futuro - Preentrega3
+{% endblock title_header %}
+
+{% block h1_header %}
+Crear Futuro
+{% endblock h1_header %}
+
+{% block contenido %}
+
+<p>{{mensaje}}</p>
+
+<form action="" method='post'>
+    {% csrf_token %}
+    <table>
+    {{formulario}}
+    </table>
+
+    <button>Crear</button>
+</form>
+{% endblock contenido %}
