@@ -11,7 +11,7 @@ class CrearBonoFormulario(forms.Form):
 
 
 class CrearAccionFormulario(forms.Form):
-    ticker = forms.CharField(max_length=4, validators=[MaxLengthValidator(4), MinLengthValidator(4)])
+    ticker = forms.CharField(max_length=4)
     descripcion = forms.CharField(max_length=30, required=False)
     Empresa = forms.CharField(max_length=20)
 
@@ -19,3 +19,7 @@ class CrearFuturoFormulario(forms.Form):
     ticker = forms.CharField(max_length=9, validators=[MaxLengthValidator(9), MinLengthValidator(9)])
     descripcion = forms.CharField(max_length=30)
     fecha_vencimiento = forms.DateField()
+
+
+class BuscarEspeciesFormulario(forms.Form):
+    ticker = forms.CharField(required=False)

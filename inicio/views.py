@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from inicio.forms import CrearAccionFormulario, CrearBonoFormulario, CrearFuturoFormulario
+from django.shortcuts import render, redirect
+from inicio.forms import CrearAccionFormulario, CrearBonoFormulario, CrearFuturoFormulario, BuscarEspeciesFormulario
 from inicio.models import Bono, Accion, Futuro
 
 # Create your views here.
@@ -17,7 +17,7 @@ def crear_bono(request):
                         emisor=info['emisor'], fecha_emision=info['fecha_emision'],
                         fecha_vencimiento=info['fecha_vencimiento'])
             bono.save()
-            mensaje = f'Se creó el bono {bono.ticker}'
+            return redirect('inicio:listar_especies')
         else:
             return render(request, 'inicio/crear_bono.html', {'formulario': formulario})
 
@@ -33,7 +33,7 @@ def crear_accion(request):
             info = formulario.cleaned_data
             accion = Accion(ticker=info['ticker'], descripcion=info['descripcion'], Empresa=info['Empresa'])
             accion.save()
-            mensaje = f'Se creó la acción {accion.ticker}'
+            return redirect('inicio:listar_especies')
         else:
             return render(request, 'inicio/crear_accion.html', {'formulario': formulario})
 
@@ -50,9 +50,24 @@ def crear_futuro(request):
             info = formulario.cleaned_data
             futuro = Futuro(ticker=info['ticker'], descripcion=info['descripcion'], fecha_vencimiento=info['fecha_vencimiento'])
             futuro.save()
-            mensaje = f'Se creó el futuro {futuro.ticker}'
+            return redirect('inicio:listar_especies')
         else:
             return render(request, 'inicio/crear_futuro.html', {'formulario': formulario})
 
     formulario = CrearFuturoFormulario()
     return render(request, 'inicio/crear_futuro.html', {'formulario': formulario, 'mensaje': mensaje})
+
+def listar_especies(request):
+
+    formulario = BuscarEspeciesFormulario(request.GET)
+    ticker_a_buscar = None
+    if formulario.is_valid():
+        ticker_a_buscar = formulario.cleaned_data['ticker']
+        listado_de_bonos = Bono.objects.filter(ticker__icontains=ticker_a_buscar)
+        listado_de_acciones = Accion.objects.filter(ticker__icontains=ticker_a_buscar)
+        listado_de_futuros = Futuro.objects.filter(ticker__icontains=ticker_a_buscar)
+    formulario = BuscarEspeciesFormulario()
+    return render(request, 'inicio/listar_especies.html', {'formulario': formulario, 'Bonos': listado_de_bonos,
+                                                           'Acciones': listado_de_acciones,'Futuros': listado_de_futuros})
+
+#

@@ -15,7 +15,7 @@ class Bono(models.Model):
     fecha_vencimiento = models.DateField()
 
 class Accion(models.Model):
-    ticker = models.CharField(max_length=4, validators=[MaxLengthValidator(4), MinLengthValidator(4)])
+    ticker = models.CharField(max_length=4)
     descripcion = models.CharField(max_length=30)
     Empresa = models.CharField(max_length=20)
 

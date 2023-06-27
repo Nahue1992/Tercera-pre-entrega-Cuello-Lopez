@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title_header %}
+Especies
+{% endblock title_header %}
+
+{% block h1_header %}
+Listado de Especies
+{% endblock h1_header %}
+
+{% block contenido %}
+
+<table>
+    <button><a class="navbar-brand" href={% url 'inicio:crear_bono' %}>Crear Bono</a></button>
+    <button><a class="navbar-brand" href={% url 'inicio:crear_accion' %}>Crear Acción</a></button>
+    <button><a class="navbar-brand" href={% url 'inicio:crear_futuro' %}>Crear Futuro</a></button>
+</table>
+<p>{{mensaje}}</p>
+<p>Buscar Especie</p>
+
+<form action="" method="get">
+    {{formulario}}
+    <button>Buscar</button>
+</form>
+
+{% for accion in Acciones %}
+<li>ACCION - Ticker:{{accion.ticker}} - Descripción {{accion.descripcion}}</li>
+{% endfor %}
+
+{% for bono in Bonos %}
+<li>BONO - Ticker:{{bono.ticker}} - Descripción {{bono.descripcion}}</li>
+{% endfor %}
+
+{% for futuro in Futuros %}
+<li>FUTURO - Ticker:{{futuro.ticker}} - Descripción {{futuro.descripcion}}</li>
+{% endfor %}
+
+{% endblock contenido %}
